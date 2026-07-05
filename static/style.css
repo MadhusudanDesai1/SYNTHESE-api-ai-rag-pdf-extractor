@@ -1,0 +1,170 @@
+/* --- Color Palette & Variables --- */
+:root {
+    --paper: #F7F0E6;
+    --surface: #F3EBDD;
+    --ink: #102B1F;
+    --lime: #BFEA4B;
+    --rust: #C53A20;
+    --muted: #6B7A6D;
+    
+    --font-heading: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+    
+    --border-thick: 3px solid var(--ink);
+    --shadow-hard: 6px 6px 0px var(--ink);
+    --shadow-hover: 3px 3px 0px var(--ink);
+}
+
+/* --- Global Resets & Typography --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+}
+
+h1, h2, h3 { font-family: var(--font-heading); color: var(--ink); }
+
+h1 { font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -1px; }
+h1 i { font-style: italic; color: var(--rust); }
+header p { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; font-weight: 600; }
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* --- Neobrutalist Cards --- */
+.card {
+    background-color: #FFFFFF;
+    border: var(--border-thick);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-hard);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.response-card { background-color: var(--surface); }
+
+h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem; }
+h3.sources-title { margin-top: 2rem; font-size: 1.25rem; border-top: 2px solid var(--ink); padding-top: 1rem;}
+
+/* --- Forms & Inputs --- */
+label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+
+input[type="file"], input[type="text"] {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: outline 0.1s;
+}
+
+input:focus { outline: 3px solid var(--lime); outline-offset: 2px; }
+
+/* --- Global Button (The Push-in Hover Effect) --- */
+.global-btn {
+    display: block;
+    width: 100%;
+    background-color: var(--lime);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1rem 2rem;
+    border: var(--border-thick);
+    border-radius: 50px; /* Pill shape */
+    box-shadow: var(--shadow-hard);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.global-btn:hover {
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.global-btn:active {
+    transform: translate(6px, 6px);
+    box-shadow: none;
+}
+
+.global-btn:disabled {
+    background-color: var(--muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-hard);
+}
+
+/* --- Response Areas --- */
+.content-box {
+    background-color: white;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 1.5rem;
+    white-space: pre-wrap;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.source-box {
+    background-color: white;
+    border: 2px solid var(--ink);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+/* --- Utilities --- */
+.hidden { display: none !important; }
+.success-text { color: var(--ink); background-color: var(--lime); padding: 0.5rem 1rem; border: 2px solid var(--ink); border-radius: 50px; display: inline-block; font-weight: 800; margin-top: 1rem;}
+#error-banner { background-color: var(--rust); color: white; padding: 1rem; border: var(--border-thick); border-radius: 8px; margin-bottom: 2rem; font-weight: 600; box-shadow: var(--shadow-hard); }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    body { padding: 1rem; }
+    h1 { font-size: 2.25rem; }
+    .card { padding: 1.5rem; box-shadow: 4px 4px 0px var(--ink); }
+    .global-btn { font-size: 1rem; padding: 0.8rem 1.5rem; box-shadow: 4px 4px 0px var(--ink); }
+    :root { --shadow-hard: 4px 4px 0px var(--ink); --shadow-hover: 2px 2px 0px var(--ink); }
+}
+
+/* --- Optimized Brand Header --- */
+.brand-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 4px solid var(--ink); /* Adds a crisp line to anchor the brand */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center; /* Perfectly centers icon with text */
+    gap: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.brand-logo {
+    width: 70px;      /* Slightly larger to stand out */
+    height: auto;     /* Maintains aspect ratio */
+    filter: drop-shadow(3px 3px 0px var(--ink)); /* Better than border for icons */
+}
+
+h1 { 
+    font-size: 4rem; 
+    font-weight: 900; 
+    letter-spacing: -3px; /* Tightest possible kerning for a logo feel */
+    margin-bottom: 0; 
+    line-height: 0.9;
+}

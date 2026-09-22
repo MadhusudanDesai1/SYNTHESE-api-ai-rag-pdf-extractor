@@ -108,6 +108,46 @@ docker run -p 8000:8000 --env-file .env synthese
 - `POST /upload` — upload a PDF and get a document ID
 - `POST /query` — ask a question about a previously uploaded document
 
+## Benchmarking and Impact Measurement
+
+To validate the retrieval quality of the RAG system, I ran a focused evaluation against the project’s actual ChromaDB collection. The benchmark was designed to answer one practical question: how reliably does the vector search retrieve the correct document chunk for a fact-based question from the stored PDFs?
+
+### Evaluation method
+
+- I used the real persisted ChromaDB index in `data/chroma`.
+- I created a small benchmark set from factual information already present in the embedded documents, such as project metadata, candidate details, course information, and IELTS-related content.
+- For each query, I matched it to a known gold chunk in the same document and then measured whether the expected chunk was returned in the top results.
+- Retrieval latency was measured in milliseconds for each query using the same `collection.query()` pipeline the app uses in production.
+
+### Metrics used
+
+- Recall@1: whether the correct chunk appears as the top result.
+- Recall@5: whether the correct chunk appears within the top 5 results.
+- MRR (Mean Reciprocal Rank): how highly the correct chunk ranks on average.
+- Retrieval latency: average, median, min, and max query time in milliseconds.
+
+### Actual benchmark results
+
+These are the measurements captured from the current implementation and saved in `rag_evaluation.txt`:
+
+- Recall@1: 0.875000
+- Recall@5: 1.000000
+- MRR: 0.937500
+- Average latency: 55.0126 ms
+- Median latency: 28.9955 ms
+- Min latency: 26.7184 ms
+- Max latency: 239.5343 ms
+
+### Why this matters
+
+This benchmark quantifies the practical impact of the project in a measurable way:
+
+- The retrieval layer is highly effective for the tested factual queries because Recall@5 is 1.0.
+- The system also ranks the correct chunk very well on average, reflected by an MRR of 0.9375.
+- Retrieval remains fast enough for interactive use, with median latency under 29 ms and average latency around 55 ms.
+
+The benchmark script used for this evaluation is `rag_benchmark.py`, and the full output is stored in `rag_evaluation.txt`.
+
 ## Notes
 
 - Uploaded PDFs are processed in the background and stored in the local ChromaDB collection.

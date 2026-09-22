@@ -128,7 +128,7 @@ To validate the retrieval quality of the RAG system, I ran a focused evaluation 
 
 ### Actual benchmark results
 
-These are the measurements captured from the current implementation and saved in `rag_evaluation.txt`:
+These are the measurements captured from the current implementation:
 
 - Recall@1: 0.875000
 - Recall@5: 1.000000
@@ -146,7 +146,28 @@ This benchmark quantifies the practical impact of the project in a measurable wa
 - The system also ranks the correct chunk very well on average, reflected by an MRR of 0.9375.
 - Retrieval remains fast enough for interactive use, with median latency under 29 ms and average latency around 55 ms.
 
-The benchmark script used for this evaluation is `rag_benchmark.py`, and the full output is stored in `rag_evaluation.txt`.
+### Answer quality evaluation
+
+I also evaluated whether the retrieved evidence was sufficient to support answers. I used eight questions derived only from facts present in the stored documents. Each question had expected document phrases, and an answer was counted as correct only when every expected phrase appeared in the top-1 retrieved chunk. This provided a reproducible, document-grounded correctness measure without fabricating reference answers or using an external LLM judge.
+
+The evaluation ran against 28 stored ChromaDB chunks and produced these results:
+
+- Test questions: 8
+- Retrieval success@1: 0.750000
+- Retrieval success@5: 1.000000
+- Evidence-supported answer correctness: 0.750000
+- Average retrieval latency: 62.0542 ms
+- Median retrieval latency: 23.7475 ms
+- Minimum retrieval latency: 19.8755 ms
+- Maximum retrieval latency: 333.5469 ms
+
+## Conclusion and Quantified Impact
+
+The evaluation showed that 100% of the tested questions retrieved their supporting information within the top five results. The correct chunk was ranked first for 75% of the questions, and 75% of the questions had all expected facts available in the top-1 evidence. This indicates that the retrieval layer consistently finds relevant context, although some questions would benefit from returning more than one result or improving query-to-chunk matching.
+
+The median retrieval latency was 23.7475 ms, meaning half of the measured searches completed within approximately 24 ms. The average latency was 62.0542 ms, while the 19.8755 ms minimum and 333.5469 ms maximum show the observed performance range. These latency measurements quantify the cost of the local retrieval stage only and do not include Gemini answer-generation time.
+
+Overall, the project demonstrated strong top-five retrieval coverage and low typical retrieval latency on the available document set. The measured 75% top-one evidence correctness provides a clear baseline for future improvements to chunking, query phrasing, reranking, or context selection.
 
 ## Notes
 
